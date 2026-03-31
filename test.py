@@ -1,17 +1,56 @@
+"""
+ignore this file
+"""
+
 import pandas as pd
 import numpy as np
-from pathlib import Path
-import plotly.graph_objects as go
-from scipy.stats import multivariate_normal, norm
 
-import numpy as np
+def a(p,k):
+    top = 3**k*p
+    bot = (3**(3-k)*p + 3**k*(1-p))
+    return top / bot
 
-snp = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com_transformed" / "CSPX ETF Stock Price History.csv")
-china = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com_transformed" / "CNYA ETF Stock Price History.csv")
-em = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com_transformed" / "EIMI ETF Stock Price History.csv")
-gold = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com_transformed" / "XAD5 Historische Data.csv")
-india = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com_transformed" / "INR ETF Stock Price History.csv")
-mscieurope = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com_transformed" / "XMEU ETF Stock Price History.csv")
-smallcapeurope = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com_transformed" / "SXRJ ETF Stock Price History.csv")
+def b(p,k):
+    return p/(3**(3-k))
 
-print(snp["Vol_clean"].values)
+def c(p,k):
+    top = p*3**(3-k)
+    bot = 3**(3-k)*p+3**k*(1-p)
+    return top/bot
+
+def d(p,k):
+    top = (1-p)*3**(3-k)
+    bot = 3**(3-k)*p+3**k*(1-p)
+    return top/bot
+
+def mine(p,k):
+    top = p*3**(3-k)/4**3
+    bot = top + (1-p)*3**k/4**3
+    return top/bot
+
+import scipy.integrate
+
+lmbda = 3
+mu = 4
+PA = 3/4
+PB = 1/4
+
+def f_T1T2_A(x,y):
+    return lmbda*lmbda*np.exp(-lmbda*(x+y))
+
+def f_T1T2_B(x,y):
+    return mu*mu*np.exp(-mu*(x+y))
+
+def f_T1T2(x,y):
+    return PA*f_T1T2_A(x,y) + PB*f_T1T2_B(x,y)
+
+def f_T2(x):
+    return f_T1T2(2,x)
+
+def f_T1(x):
+    return scipy.integrate.quad(lambda y: f_T1T2(x,y), 0, 40)[0]
+
+# expt = scipy.integrate.quad(lambda x: x*f_T2(x), 0, 40)[0]
+# print(expt / f_T1(2))
+
+print(4/15*4/5*1/4/(4/45*(8-(5/4)**3)))

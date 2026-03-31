@@ -6,3 +6,5 @@ data/OHCL/msci_europe.csv
 data/OHCL/india.csv
 data/OHCL/gold.csv
 data/OHCL/emerging_markets.csv
+test.py
+test2.ipynb
