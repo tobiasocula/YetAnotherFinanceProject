@@ -1,0 +1,39 @@
+CREATE:
+1. Investment Memo (10pg): Thesis + edge + crisis behavior
+2. Parameter Study (5pg): Your heatmaps + robustness proof  
+3. Risk Report (8pg): Stress tests + safety mechanisms
+4. Execution Framework (5pg): Rebalance logic + costs
+5. Live Trading Plan (3pg): IBKR API + monitoring
+
+1. Thesis
+
+chapters:
+-Basic idea (optimize vs. equal weights)
+-Assets to choose
+-Optimizing metrics
+--Momentum and volume
+--Regime switching (with correlation_threshold and volatility_threshold safety)
+--Factor investing
+--Weight concentration punishment
+--Volatility punishment
+--CVaR drawdown punishment
+--Adjusting for fees
+-Final verdict -> goal is not to outclass equal weights, but to enhance it by optimizing metrics like CVaR
+
+2. Parameter Study
+
+-discuss parameters used
+-provide screenshots of heatmaps of used parameters
+
+3. Risk Report
+
+-state all stress-test periods
+-discuss vs. equal weights and other frameworks (ie. risk-parity and factor investing)
+
+4. Execution Framework
+
+-discuss strategy for exiting and entering positions
+
+5. Live Trading Plan
+
+-maintain active journal of placed / exited trades
