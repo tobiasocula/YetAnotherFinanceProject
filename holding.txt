@@ -28,3 +28,18 @@ https://www.interactivebrokers.ie/portal/#/quote/190114251?source=ptf
 
 ETH
 BTC
+
+ALLOCATION
+
+
+dfs = [snp, china, em, gold, india, mscieurope, smallcapeurope, cash]
+[0.12375984 0.08672643 0.09112479 0.1728504  0.10770182 0.09540524
+ 0.09551208 0.22691947]
+
+snp: 123759
+china: 86726
+em: 91124
+gold: 172850
+india: 107702
+mscieurope: 95405
+smallcapeurope: 95512

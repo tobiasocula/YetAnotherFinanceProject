@@ -3,17 +3,23 @@
 We first discuss the general goal of this investment portfolio and where I see it going in the future.
 The main goal is to provide a stable RoI over a mid- to long-term time horizon, think 10-15 years or longer. The goal is not to outperform the general market, but to provide a better risk-adjusted return basis than traditional equal weights (= buy-and-hold) portfolio.
 
-## Assets
+## Asset Universe
 
 I have chosen a simple basket of Exchange Traded Funds (ETFs) for contents in the portfolio, for a few reasons. First, and most importantly, is the automatic guaranteed diversification one gets when investing into a fund instead of picking stocks manually. The latter is less ideal because of its inherent risk of not diversifying enough, seeing as the goal for this investment philosophy is to reduce tail-risk.
 
-In terms of which ETFs I will be considering for the portfolio; I have gone for a diversified basket of funds, spreading accross different markets across the world, including one for the US, European, Chinese and Emerging market(s), and also including European smallcap stocks, to further diversity in this region (the MSCI Europe and Small Cap ETF cover a mostly disjoint part of the EU-market).
+In terms of which ETFs I will be considering for the portfolio; I have gone for a diversified basket of funds, spreading accross different markets across the world, including one for the US, European, Chinese and Emerging market(s), and also including European smallcap stocks, to further diversity in this region (the MSCI Europe and Small Cap ETF cover a mostly disjoint part of the EU-market). Below is an overview of the allocations and additional reasons why these allocations make sense (even though they are determined by the weights optimizer):
 
-US: 11%
-Europe Large cap: 12%
-Europe Small cap: 12%
-Asia/EM: 23%
-Gold: 22%
+US: 11% - Global growth - technological innovation and large market
+
+Europe Large cap: 12% - cyclical complement to US assets, value
+
+Europe Small cap: 12% - size premium and lower US correlation
+
+Asia/EM: 23% - Growth potential + offset to US + European markets
+
+Gold: 22% - Crisis hedge, negative or very low correlation with equity
+
+![1](assets/asset_correlations.png)
 
 Before we present the chosen portfolio strategy, we first discuss some metrics and ideas for weight optimalization I have considered to construct the general strategy.
 
