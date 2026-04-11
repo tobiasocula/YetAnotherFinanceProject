@@ -111,3 +111,12 @@ On what basis should be determine the asset weights? After rigorous testing and 
 ## Limitations and comparison vs. Equal weights
 
 It is worth noting that while the strategy I have constructed can definitely outperform on a risk-adjusted basis, it is still possible that equal weights will outperform (although slightly) in the case of bear-markets. This is most likely due to optimalizations the procedure makes that don't account enough for the potential large market downturns. It is possible to reduce this inherent shortcoming of the strategy, but not without sacrificing risk-adjusted returns, which is ultimately what this portfolio is built for.
+
+## Expected Behavior By Regime
+
+| Market Regime | Strategy Behavior | Rationale |
+|---------------|------------------|-----------|
+| **Normal** | Outperforms equal weight | Momentum works |
+| **Bear** | Matches equal weight or sometimes underperforms | Safety mechanisms trigger |
+| **High inflation** | Gold overweight | Commodity hedge |
+| **Growth** | US/India overweight | Momentum signal |

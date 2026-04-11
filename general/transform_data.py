@@ -5,22 +5,13 @@ import sys
 
 
 # Read CSV files without setting index_col
-snp = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com" / "CSPX ETF Stock Price History.csv")
-china = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com" / "CNYA ETF Stock Price History.csv")
-em = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com" / "EIMI ETF Stock Price History.csv")
-gold = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com" / "XAD5 ETF Stock Price History.csv")
-india = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com" / "INR ETF Stock Price History.csv")
-mscieurope = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com" / "XMEU ETF Stock Price History.csv")
-smallcapeurope = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com" / "SXRJ ETF Stock Price History.csv")
+ussmallcap = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com" / "CUSS ETF Stock Price History.csv")
+silver = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com" / "SSLN ETF Stock Price History.csv")
+
 
 labels = [
-    "CSPX ETF Stock Price History.csv",
-    "CNYA ETF Stock Price History.csv",
-    "EIMI ETF Stock Price History.csv",
-    "XAD5 ETF Stock Price History.csv",
-    "INR ETF Stock Price History.csv",
-    "XMEU ETF Stock Price History.csv",
-    "SXRJ ETF Stock Price History.csv"
+    "CUSS ETF Stock Price History.csv",
+    "SSLN ETF Stock Price History.csv",
 ]
 
 import numpy as np
@@ -39,13 +30,7 @@ def clean_volume(vol_series):
     
     return vol_series.apply(parse_single)
 
-dfs = [snp, china, em, gold, india, mscieurope, smallcapeurope]
-
-# print("All volumes now float:", [df['Vol_clean'].dtype for df in dfs])
-# print("Sample clean volumes:", dfs[0]['Vol_clean'].head())
-
-
-dfs = [snp, china, em, gold, india, mscieurope, smallcapeurope]
+dfs = [ussmallcap, silver]
 dfs_new = []
 for i, (label, df) in enumerate(zip(labels, dfs)):
     print('label:', label)
