@@ -5,13 +5,13 @@ import sys
 
 
 # Read CSV files without setting index_col
-ussmallcap = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com" / "CUSS ETF Stock Price History.csv")
-silver = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com" / "SSLN ETF Stock Price History.csv")
+energy = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com" / "MLPX Historical Data.csv")
+print(energy)
+print()
 
 
 labels = [
-    "CUSS ETF Stock Price History.csv",
-    "SSLN ETF Stock Price History.csv",
+    "MLPX Historical Data.csv"
 ]
 
 import numpy as np
@@ -30,12 +30,13 @@ def clean_volume(vol_series):
     
     return vol_series.apply(parse_single)
 
-dfs = [ussmallcap, silver]
+dfs = [energy]
 dfs_new = []
 for i, (label, df) in enumerate(zip(labels, dfs)):
     print('label:', label)
     df.columns = df.columns.str.strip()
     df["Date"] = pd.to_datetime(df["Date"])
+    print('transformed:'); print(df)
      # Make sure these are strings first
     df["Price"] = df["Price"].astype(str).str.replace(",", "", regex=False)
     # Then to numeric, coercing bad values to NaN
@@ -55,7 +56,7 @@ for i, (label, df) in enumerate(zip(labels, dfs)):
     dfs_new.append(df)
 
 # Save the transformed DataFrame
-
-for df, label in zip(dfs_new, labels):
+new_labels = ["MLPX ETF Stock Price History.csv"]
+for df, label in zip(dfs_new, new_labels):
     print('label:', label)
     df.to_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com_transformed" / label, index=False)

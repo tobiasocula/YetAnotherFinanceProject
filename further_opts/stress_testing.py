@@ -18,8 +18,8 @@ def stress_test(df_volmume, df_prices, start_train, end_train, end_valid,
     train_prices = df_prices[(df_prices.index >= pd.to_datetime(start_train)) & (df_prices.index <= pd.to_datetime(end_train))].values
     valid_prices = df_prices[(df_prices.index > pd.to_datetime(end_train)) & (df_prices.index <= pd.to_datetime(end_valid))].values
 
-    returns_train = train_prices[:-1] / train_prices[1:] - 1
-    returns_valid = valid_prices[:-1] / valid_prices[1:] - 1
+    returns_train = train_prices[1:] / train_prices[:-1] - 1
+    returns_valid = valid_prices[1:] / valid_prices[:-1] - 1
 
     ws, stress_values = weights(returns_train, gamma, alpha, lambda_, train_volume, m_params, Sigma,
                  min_weight, stress_corr_weight, global_corr_mean,

@@ -1,9 +1,8 @@
 import numpy as np
 import tensorflow as tf
 from scipy.optimize import minimize
-from helpers import *
 from scipy.cluster.hierarchy import linkage, leaves_list
-from scipy.spatial.distance import squareform
+from helpers import *
 
 def risk_parity_weights(returns):
     
@@ -24,7 +23,6 @@ def hrp_weights(returns):
     distance = np.sqrt(0.5 * (1 - corr))
 
     # Perform hierarchical clustering
-    print('DISTANCE:'); print(distance)
     #link = linkage(squareform(distance), method='single')
     link = linkage(distance, method="single")
 

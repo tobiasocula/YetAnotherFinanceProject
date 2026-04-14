@@ -32,3 +32,12 @@ def normalize(x):
 def rank_transform(x):
     ranks = tf.argsort(tf.argsort(x)) # first argsort gives sorted indices, second gives rank
     return tf.cast(ranks, tf.float32) / tf.cast(tf.size(x), tf.float32)
+
+def stress_values_to_dict(strategy_labels, stresses):
+    return {l: np.mean(x) for l,x in zip(strategy_labels, stresses)}
+
+def costs_to_dict(strategy_labels, costs):
+    return {l: np.mean(x) for l,x in zip(strategy_labels, costs)}
+
+def cash_allocs_to_dict(strategy_labels, allocs):
+    return {l: np.mean(x) for l,x in zip(strategy_labels, allocs)}

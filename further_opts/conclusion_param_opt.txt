@@ -1,0 +1,46 @@
+SHARPE + CVAR
+
+-cash allocation: almost constant
+-costs: lower if lambda higher
+-stresses: almost constant
+-max drawdown: almost constant
+-mean return: slight higher if lambda higher, gamma no impact
+-sortino: slightly higher if lambda lower
+-sharpe: same
+-cvar: slightly lower in abs value if lambda higher
+-var: almost constant
+
+SHARPE BASED
+
+-costs: heavily dependent on cash allocation (expected)
+-stressses: lower with lower gamma, lower with higher stress coef
+-max drawdown: slightly better when gamma lower, stress coef lower
+-mean return: better when higher stress coef, worse when cash param is lower
+-sortino: slightly better when stress coef low, slightly better when cash param = 0.5
+-sharpe: same as sortino
+-cvar: only dependent on cash allocation, slightly better when cash alloc is higher
+-var: same
+
+MOMENTUM BASED WITH CVAR
+
+-cash allocation: almost constant
+-costs: slightly better when lambda higher
+-stress values: slightly better when lambda higher
+-max drawdown: mostly depends on m-parameter allocations: slightly better when using parameters [0.25 0.5  0.25]
+-var: almost constant as var
+-cvar: same as var
+-sharpe: slightly better when using m-parameters [0.33, 0.33, 0.33]
+-sortino: same as sharpe
+-mean return: slightly better when lambda higher
+
+MOMENTUM WITHOUT CVAR
+
+-cash allocs: almost constant
+-costs: lowest when using m-parameters [0.25, 0.25, 0.50] (why?) and slightly better (lower) when gamma lower
+-stresses: slightly better (lower) when using m-parameters [0.33, 0.33, 0.33] or [0.25, 0.50, 0.25]
+-max drawdown: slightly better when using m-parameters [0.33, 0.33, 0.33] or [0.25, 0.50, 0.25], and slightly better when gamma is lower
+-mean return: best when gamma low and stress coef higher, and when using m-parameters [0.33, 0.33, 0.33]
+-sortino: slightly better when using m-parameters [0.33, 0.33, 0.33]
+-sharpe: same as sortino
+-cvar: slightly better when using m-parameters [0.33, 0.33, 0.33] or [0.25, 0.50, 0.25]
+-var: same conclusion

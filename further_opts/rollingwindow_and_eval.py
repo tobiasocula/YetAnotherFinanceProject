@@ -28,15 +28,15 @@ def perform_validation(w, validation_returns, validation_prices, risk_free):
 
     md = max_drawdown(validation_prices, w[:-1])
 
-    print('PRINTING STATS'); print()
-    print("Mean daily return:", np.mean(total_return))
-    print("Annualized mean return:", 255 * np.mean(total_return))
-    print("Daily std:", std)
-    print("Annualized std:", np.sqrt(255) * std)
-    print("Daily risk-free rate:", risk_free / 255)
-    print("Annualized risk-free rate:", risk_free)
-    print("Excess return (annualized):", 255 * np.mean(total_return) - risk_free / 255)
-    print("Sharpe ratio:", (255 * np.mean(total_return) - risk_free / 255) / (np.sqrt(255) * std))
+    # print('PRINTING STATS'); print()
+    # print("Mean daily return:", np.mean(total_return))
+    # print("Annualized mean return:", 255 * np.mean(total_return))
+    # print("Daily std:", std)
+    # print("Annualized std:", np.sqrt(255) * std)
+    # print("Daily risk-free rate:", risk_free / 255)
+    # print("Annualized risk-free rate:", risk_free)
+    # print("Excess return (annualized):", 255 * np.mean(total_return) - risk_free / 255)
+    # print("Sharpe ratio:", (255 * np.mean(total_return) - risk_free / 255) / (np.sqrt(255) * std))
 
     return var_alpha, cvar, sharpe, sortino, cumulative_returns, mean_return, md
 
@@ -92,11 +92,13 @@ def rolling_window(returns, volume, price, window_size,
     total_stress_values = [[] for _ in range(num_strats)]
     total_costs = [[] for _ in range(num_strats)]
 
-    for idx in range(window_size, T, window_size):
+    store_weights = []
+
+    for idx in range(window_size, T, stepsize):
 
         returns_train = returns[idx-window_size:idx]
-        returns_val = returns[idx:idx+window_size]
-        prices_val = price[idx:idx+window_size]
+        returns_val = returns[idx:min(T, idx+validation_size)]
+        prices_val = price[idx:min(T, idx+validation_size)]
 
         volumes_train = volume[idx-window_size:idx]
         Sigma = np.cov(returns_train, rowvar=False)
@@ -110,6 +112,8 @@ def rolling_window(returns, volume, price, window_size,
                                stress_corr_weight, global_corr_mean,
                                global_corr_std, global_vola_mean, global_vola_std,
                                max_cash_alloc, cash_alloc_param)
+        
+        store_weights.append(np.array(ws))
         
         for i,stress in enumerate(stresses):
             total_stress_values[i].append(stress)
@@ -141,9 +145,11 @@ def rolling_window(returns, volume, price, window_size,
 
     track_num_rebalances /= count_iters
 
+    store_weights = np.array(store_weights)
+
     mean_stats /= count_iters
     labels = ["ER", "ER_cvar", "sharpe", "sharpe_cvar", "momentum_based", "momentum_cvar",
               "risk_parity", "hrp_weights", "equal_weights"]
     stats_labels = ["var_alpha", "cvar", "sharpe", "sortino", "mean_return", "md"]
     df = pd.DataFrame(mean_stats, index=labels, columns=stats_labels)
-    return df, total_costs, total_stress_values, track_num_rebalances, track_cash_allocs
+    return df, total_costs, total_stress_values, track_num_rebalances, track_cash_allocs, store_weights
