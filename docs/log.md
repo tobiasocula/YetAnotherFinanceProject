@@ -1,18 +1,40 @@
 
 
+MAIN
+
 SHARE LOG
-(bond = nominal value)
-date,cnya,cspx,eimi,inr,sxrj,xad5,xmeu,bond
-09-04-26,14711,199,2164,4309,273,444,1109,244660
+FOR BOND: IN 1000 EUROS
+date,cnya,emu,bond,em,ind,snp,gold,xmsci
+09-04-26,14.711,273,245,2164,4309,199,444,1109
+19-04-26,14.711,273,245,2164,4309,199,444,1109
 
 PORTFOLIO VALUE LOG
 date,eur
 09-04-26,1066220
+19-04-26,1093846
 
 PRICES LOG
-date,cnya,cspx,eimi,inr,sxrj,xad5,xmeu,bond
-09-04-26,5.8526,348.0407,42.0313,24.9278,625.7120,392.6515,111.5792,98.92
+date,cnya,emu,bond,em,ind,snp,gold,xmsci
+09-04-26,5.8526,348.0407,99.477,42.0313,24.9278,625.712,392.6515,111.5792
+19-04-26,6.1050,362.30,99.477,44.194,25.995,650.12,395.13,113.20
 
 WEIGHTS LOG
-date,cnya,cspx,eimi,inr,sxrj,xad5,xmeu,bond
-09-04-26,0.1239,0.0868,0.0912,0.1730,0.1078,0.0955,0.0956,0.2263
+date,cnya,emu,bond,em,ind,snp,gold,xmsci
+09-04-26,0.08762273,0.08762273,0.21139544,0.08762273,0.08762273,0.08762273,0.08762273,0.26286819
+19-04-26,0.08762273,0.08762273,0.21139544,0.08762273,0.08762273,0.08762273,0.08762273,0.26286819
+
+
+EXTENDED
+
+SHARE LOG
+(bond = nominal value)
+date,cnya,cspx,eimi,inr,sxrj,xad5,xmeu,cuss,ssln,bond
+
+PORTFOLIO VALUE LOG
+date,eur
+
+PRICES LOG
+date,cnya,cspx,eimi,inr,sxrj,xad5,xmeu,cuss,ssln,bond
+
+WEIGHTS LOG
+date,cnya,cspx,eimi,inr,sxrj,xad5,xmeu,cuss,ssln,bond

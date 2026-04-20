@@ -44,3 +44,9 @@ MOMENTUM WITHOUT CVAR
 -sharpe: same as sortino
 -cvar: slightly better when using m-parameters [0.33, 0.33, 0.33] or [0.25, 0.50, 0.25]
 -var: same conclusion
+
+CONCLUSION
+
+Best performing strategy: momentum-based with CVAR
+γ = 0.04, λ = 0.5, stress_corr_weight = 0.2
+m_params = [0.33,0.33,0.33], cash_alloc_param = 0.5

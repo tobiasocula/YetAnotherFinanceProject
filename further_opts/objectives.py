@@ -2,7 +2,7 @@ import numpy as np
 import tensorflow as tf
 from scipy.optimize import minimize
 from scipy.cluster.hierarchy import linkage, leaves_list
-from helpers import *
+from further_opts.helpers import *
 
 def risk_parity_weights(returns):
     
@@ -154,4 +154,3 @@ def weights(returns, gamma, alpha, lambda_, volumes, m_params, Sigma,
     w_new.append(w_eqw / np.sum(w_eqw))
 
     return w_new, stresses
-
