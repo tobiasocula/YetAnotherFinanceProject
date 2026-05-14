@@ -1,11 +1,6 @@
 data/OHCL/investing_dot_com
-data/OHCL/china.csv
-data/OHCL/snp500.csv
-data/OHCL/small_cap_europe.csv
-data/OHCL/msci_europe.csv
-data/OHCL/india.csv
-data/OHCL/gold.csv
-data/OHCL/emerging_markets.csv
+data/IBKR_history.csv
 test.py
 test2.ipynb
 temp_test.py
+holding.txt

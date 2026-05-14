@@ -2,13 +2,13 @@ import numpy as np
 import tensorflow as tf
 from scipy.optimize import minimize
 from scipy.cluster.hierarchy import linkage, leaves_list
-from further_opts.helpers import *
+from extended_portfolio.helpers import *
 
 def risk_parity_weights(returns):
     
     # Compute volatilities for each asset
     volatilities = np.std(returns, axis=0)  # (N,)
-    inverse_volatilities = 1.0 / (volatilities + 1e-8)  # Avoid division by zero
+    inverse_volatilities = 1.0 / (volatilities + 1e-8)
 
     # Normalize to get weights
     weights = inverse_volatilities / np.sum(inverse_volatilities)
@@ -23,7 +23,6 @@ def hrp_weights(returns):
     distance = np.sqrt(0.5 * (1 - corr))
 
     # Perform hierarchical clustering
-    #link = linkage(squareform(distance), method='single')
     link = linkage(distance, method="single")
 
     # Get the order of assets from clustering

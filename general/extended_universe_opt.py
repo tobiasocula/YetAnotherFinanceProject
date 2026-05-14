@@ -1,8 +1,8 @@
 import pandas as pd
 import numpy as np
 from pathlib import Path
-from further_opts.objectives import weights
-from further_opts.rollingwindow_and_eval import compute_statistics_rolling
+from extended_portfolio.objectives import weights
+from extended_portfolio.rollingwindow_and_eval import compute_statistics_rolling
 
 snp = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com_transformed" / "CSPX ETF Stock Price History.csv")
 china = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com_transformed" / "CNYA ETF Stock Price History.csv")
@@ -93,17 +93,6 @@ Best performing strategy: momentum-based with CVAR
 m_params = [0.33,0.33,0.33], cash_alloc_param = 0.5
 """
 
-
-"""
-def only_run_main(returns, gamma, alpha, lambda_, volumes, m_params, Sigma,
-                  min_weight,
-            stress_corr_weight,
-            global_corr_mean, global_corr_std,
-            global_vola_mean, global_vola_std,
-            max_cash_alloc,
-            cash_alloc_param
-):
-"""
 # for vola and corr est
 window_size = 60
 stepsize = 30
@@ -177,5 +166,7 @@ strategy momentum_cvar :
 [0.07594346 0.07594346 0.16462192 0.07594346 0.07594346 0.07594346
  0.07594346 0.07594346 0.07594346 0.22783039]
 stress: 0.7766211787464001
+
+FOR MOMENTUM CVAR:
 
 """
