@@ -4,12 +4,12 @@ import pandas as pd
 from extended_portfolio.helpers import *
 
 def perform_validation(w, validation_returns, validation_prices, risk_free):
-    
+
     # validation data is shape (T, N)
 
     # Reshape w to (N+1, 1) for matrix multiplication
     # perform metrics
-    total_return = validation_returns @ w[:-1] + w[-1] * risk_free / 255
+    total_return = validation_returns @ w[:-1] + w[-1] * risk_free / 255 # daily
 
     std = np.std(total_return)
     downside = total_return[total_return < 0]
@@ -37,8 +37,9 @@ def perform_validation(w, validation_returns, validation_prices, risk_free):
     # print("Annualized risk-free rate:", risk_free)
     # print("Excess return (annualized):", 255 * np.mean(total_return) - risk_free / 255)
     # print("Sharpe ratio:", (255 * np.mean(total_return) - risk_free / 255) / (np.sqrt(255) * std))
+    port_vola = std * np.sqrt(255) # annual
 
-    return var_alpha, cvar, sharpe, sortino, cumulative_returns, mean_return, md
+    return var_alpha, cvar, sharpe, sortino, cumulative_returns, mean_return, md, port_vola, total_return
 
 def compute_statistics_rolling(returns, window_size, stepsize):
 
@@ -83,7 +84,7 @@ def rolling_window(returns, volume, price, window_size,
 
     T, N = returns.shape
 
-    mean_stats = np.zeros((num_strats, 6))
+    mean_stats = np.zeros((num_strats, 7))
     # 6 statistics: var_alpha, cvar, sharpe, sortino, mean_return, md
     
     w_prev = [np.full(N+1, None) for _ in range(num_strats)]
@@ -93,6 +94,8 @@ def rolling_window(returns, volume, price, window_size,
     total_costs = [[] for _ in range(num_strats)]
 
     store_weights = []
+
+    # iterate return frames
 
     for idx in range(window_size, T, stepsize):
 
@@ -134,9 +137,11 @@ def rolling_window(returns, volume, price, window_size,
             track_cash_allocs[i].append(w[-1])
 
             total_costs[i].append(cost)
-            var_alpha, cvar, sharpe, sortino, _, mean_return, md = perform_validation(w, returns_val, prices_val, risk_free)
+            (
+                var_alpha, cvar, sharpe, sortino, _, mean_return, md, port_vola, _
+            ) = perform_validation(w, returns_val, prices_val, risk_free)
             mean_return_adj = mean_return - cost
-            perf_stats = np.array([var_alpha, cvar, sharpe, sortino, mean_return_adj, md])
+            perf_stats = np.array([var_alpha, cvar, sharpe, sortino, mean_return_adj, md, port_vola])
             mean_stats[i, :] += perf_stats
             if cost == 0.0:
                 track_num_rebalances[i] += 1
@@ -150,6 +155,6 @@ def rolling_window(returns, volume, price, window_size,
     mean_stats /= count_iters
     labels = ["ER", "ER_cvar", "sharpe", "sharpe_cvar", "momentum_based", "momentum_cvar",
               "risk_parity", "hrp_weights", "equal_weights"]
-    stats_labels = ["var_alpha", "cvar", "sharpe", "sortino", "mean_return", "md"]
+    stats_labels = ["var_alpha", "cvar", "sharpe", "sortino", "mean_return", "md", "portfolio_volatility"]
     df = pd.DataFrame(mean_stats, index=labels, columns=stats_labels)
     return df, total_costs, total_stress_values, track_num_rebalances, track_cash_allocs, store_weights

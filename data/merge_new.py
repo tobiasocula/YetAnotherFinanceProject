@@ -6,7 +6,7 @@ import sys
 
 base = Path.cwd() / "data"
 old_data = base / "OHCL" / "investing_dot_com_transformed"
-new_data = base / "OHCL" / "latest_data_new"
+new_data = base / "OHCL" / "latest_data"
 new_data.mkdir(exist_ok=True)
 
 equities = [
@@ -21,8 +21,6 @@ equities = [
     "CNYA ETF Stock Price History.csv",
     ]
 
-# TEMP
-#equities = [x.split('.')[0] + "_merged." + x.split('.')[-1] for x in equities]
 
 to_fetch = [
 "MIND.L", # india
@@ -57,7 +55,7 @@ def clean_df(df):
     
     return df
 
-days_back = 30
+days_back = 200
 end_date = datetime.now()
 start_date = end_date - timedelta(days=days_back)
 
@@ -73,8 +71,9 @@ for ticker, actual_name in zip(to_fetch, equities):
     new.index.name = 'Date'
 
     old = pd.read_csv(old_data / actual_name, index_col=0)
-    old = old.rename({"Price": "Close"}, axis=1)
+    old = old.rename({"Price": "Close", "Vol_clean": "Volume"}, axis=1)
     print('DOWNLOADED:'); print(new)
+    print('OLD COLS:'); print(old.columns)
     if new.empty:
         raise AssertionError(f"doesn't exist: {ticker}")
     print(); print('OLD:'); print(old)
@@ -86,7 +85,7 @@ for ticker, actual_name in zip(to_fetch, equities):
     new = clean_df(new)
     print('cleaned new')
 
-    common_cols = ["Open", "High", "Low", "Close"]  # Exclude Volume for now
+    common_cols = ["Open", "High", "Low", "Close", "Volume"]
     old = old[common_cols].reindex(columns=common_cols)
     new = new[common_cols].reindex(columns=common_cols)
 

@@ -4,76 +4,63 @@ from pathlib import Path
 from extended_portfolio.objectives import weights
 from extended_portfolio.rollingwindow_and_eval import compute_statistics_rolling
 
-snp = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com_transformed" / "CSPX ETF Stock Price History.csv")
-china = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com_transformed" / "CNYA ETF Stock Price History.csv")
-em = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com_transformed" / "EIMI ETF Stock Price History.csv")
-gold = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com_transformed" / "XAD5 ETF Stock Price History.csv")
-india = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com_transformed" / "INR ETF Stock Price History.csv")
-mscieurope = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com_transformed" / "XMEU ETF Stock Price History.csv")
-smallcapeurope = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com_transformed" / "SXRJ ETF Stock Price History.csv")
-ussmallcap = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com_transformed" / "CUSS ETF Stock Price History.csv")
-silver = pd.read_csv(Path.cwd() / "data" / "OHCL" / "investing_dot_com_transformed" / "SSLN ETF Stock Price History.csv")
+
+datadir = Path.cwd() / "data" / "OHCL" / "latest_data"
+
+snp = pd.read_csv(datadir / "CSPX ETF Stock Price History.csv")
+china = pd.read_csv(datadir / "CNYA ETF Stock Price History.csv")
+em = pd.read_csv(datadir / "EIMI ETF Stock Price History.csv")
+gold = pd.read_csv(datadir / "XAD5 ETF Stock Price History.csv")
+india = pd.read_csv(datadir / "INR ETF Stock Price History.csv")
+mscieurope = pd.read_csv(datadir / "XMEU ETF Stock Price History.csv")
+smallcapeurope = pd.read_csv(datadir / "SXRJ ETF Stock Price History.csv")
+ussmallcap = pd.read_csv(datadir / "CUSS ETF Stock Price History.csv")
+silver = pd.read_csv(datadir / "SSLN ETF Stock Price History.csv")
 
 dfs = [snp, china, em, gold, india, mscieurope, smallcapeurope, ussmallcap, silver]
 
 N = len(dfs)
 T = len(dfs[0]) - 1
 
-dfs = [df[["Date", "Price", "Vol."]] for df in dfs]
-
-# Convert Date to datetime
-dfs_new = []
-for df in dfs:
-    df["Date"] = pd.to_datetime(df["Date"])
-    dfs_new.append(df)
-
-dfs = dfs_new
+dfs = [df[["Close", "Volume"]] for df in dfs]
 
 names = ["snp", "china", "em", "gold", "india", "mscieurope",
          "smallcapeurope", "ussmallcap", "silver"]
 
-dfs_renamed = []
+new_dfs = []
 
 for name, df in zip(names, dfs):
-    df = df.copy()
-    df["Date"] = pd.to_datetime(df["Date"])
-    
-    df = df.rename(columns={
-        "Price": f"Price_{name}",
-        "Vol.": f"Vol_{name}"
+    df_new = df.copy()
+    df_new.index = pd.to_datetime(df_new.index)
+    df_new["Volume"].ffill()
+    df_new = df_new.rename(columns={
+        "Close": f"Close_{name}",
+        "Volume": f"Volume_{name}"
     })
     
-    dfs_renamed.append(df)
-
-dfs = dfs_renamed
+    new_dfs.append(df_new)
 
 # Merge all on Date
-df_merged = dfs[0]
-for df in dfs[1:]:
-    df_merged = df_merged.merge(df, on="Date", how="inner", suffixes=("", "_x"))
+df_merged = new_dfs[0]
+# for df in dfs[1:]:
+#     df_merged = df_merged.merge(df, on="Date", how="inner", suffixes=("", "_x"))
 
-# Sort by date
-df_merged = df_merged.sort_values("Date")
+for df in new_dfs[1:]:
+    df_merged = df_merged.merge(
+        df,
+        left_index=True,
+        right_index=True,
+        how="inner"
+    )
 
-def correct_volume(vol_value):
-    if isinstance(vol_value, (float, int)):
-        return vol_value
-    if vol_value[-1] == "K":
-        return 1000 * float(vol_value[:-1])
-    if vol_value[-1] == "M":
-        return 1_000_000 * float(vol_value[:-1])
-    return float(vol_value)
-
-df_merged = df_merged.set_index("Date")
-
-price_cols = [col for col in df_merged.columns if col.startswith("Price_")]
-vol_cols = [col for col in df_merged.columns if col.startswith("Vol_")]
+price_cols = [col for col in df_merged.columns if col.startswith("Close_")]
+vol_cols = [col for col in df_merged.columns if col.startswith("Volume_")]
 
 prices_df = df_merged[price_cols].apply(pd.to_numeric, errors="coerce")
 volumes_df = df_merged[vol_cols].copy()
 
-for col in volumes_df.columns:
-    volumes_df[col] = volumes_df[col].apply(correct_volume)
+# for col in volumes_df.columns:
+#     volumes_df[col] = volumes_df[col].apply(correct_volume)
 
 volumes_df = volumes_df.fillna(0.0)
 

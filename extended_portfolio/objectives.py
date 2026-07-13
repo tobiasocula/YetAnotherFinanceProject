@@ -73,11 +73,13 @@ def weights(returns, gamma, alpha, lambda_, volumes, m_params, Sigma,
     volatility = np.std(returns[-60:], axis=0) # N
     vol_short = np.mean(volumes[-10:], axis=0)
     vol_long = np.mean(volumes[-60:], axis=0)
+    print('vol short and long shape:', vol_short.shape, vol_long.shape)
     volume_signal = (vol_short - vol_long) / (vol_long + 1e-8)
     risk_adj_momentum = momentum / (volatility + 1e-8)
     m1 = normalize(momentum)
     m2 = normalize(risk_adj_momentum)
     m3 = normalize(volume_signal)
+    print('shapes m123:', m1.shape, m2.shape, m3.shape)
     m = m1*m_params[0] + m2*m_params[1] + m3*m_params[2] # N
 
     # combine (N,)
