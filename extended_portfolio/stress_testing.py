@@ -13,7 +13,7 @@ def stress_test(df_volmume, df_prices, start_train, end_train, end_valid,
     num_strats = 9
 
     train_volume = df_volmume[(df_volmume.index >= pd.to_datetime(start_train)) & (df_volmume.index <= pd.to_datetime(end_train))].values
-    valid_volume = df_volmume[(df_volmume.index > pd.to_datetime(end_train)) & (df_volmume.index <= pd.to_datetime(end_valid))].values
+    #valid_volume = df_volmume[(df_volmume.index > pd.to_datetime(end_train)) & (df_volmume.index <= pd.to_datetime(end_valid))].values
     
     train_prices = df_prices[(df_prices.index >= pd.to_datetime(start_train)) & (df_prices.index <= pd.to_datetime(end_train))].values
     valid_prices = df_prices[(df_prices.index > pd.to_datetime(end_train)) & (df_prices.index <= pd.to_datetime(end_valid))].values
@@ -27,17 +27,17 @@ def stress_test(df_volmume, df_prices, start_train, end_train, end_valid,
                  global_vola_std, max_cash_alloc,
                  cash_alloc_param)
     
-    stats = np.zeros((num_strats, 6))
+    stats = np.zeros((num_strats, 7))
     cumreturns_all = []
-    # 6 statistics: var_alpha, cvar, sharpe, sortino, mean_return, md
+    # 7 statistics: var_alpha, cvar, sharpe, sortino, mean_return, md, portfolio_vola
     for i,w in enumerate(ws):
-        var_alpha, cvar, sharpe, sortino, cumreturns, mean_return, md = perform_validation(w, returns_valid, valid_prices, risk_free)
+        var_alpha, cvar, sharpe, sortino, cumreturns, mean_return, md, portfolio_vola, _ = perform_validation(w, returns_valid, valid_prices, risk_free)
         cumreturns_all.append(cumreturns)
-        stats[i] = [var_alpha, cvar, sharpe, sortino, mean_return, md]
+        stats[i] = [var_alpha, cvar, sharpe, sortino, mean_return, md, portfolio_vola]
 
     labels = ["ER", "ER_cvar", "sharpe", "sharpe_cvar", "momentum_based", "momentum_cvar",
               "risk_parity", "hrp_weights", "equal_weights"]
-    stats_labels = ["var_alpha", "cvar", "sharpe", "sortino", "mean_return", "md"]
+    stats_labels = ["var_alpha", "cvar", "sharpe", "sortino", "mean_return", "md", "portfolio_vola"]
     df = pd.DataFrame(stats, index=labels, columns=stats_labels)
 
     return df, cumreturns_all, ws, stress_values

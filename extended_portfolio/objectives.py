@@ -2,7 +2,7 @@ import numpy as np
 import tensorflow as tf
 from scipy.optimize import minimize
 from scipy.cluster.hierarchy import linkage, leaves_list
-from extended_portfolio.helpers import *
+from helpers import *
 
 def risk_parity_weights(returns):
     

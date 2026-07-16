@@ -1,7 +1,7 @@
-from extended_portfolio.objectives import weights
+from objectives import weights
 import numpy as np
 import pandas as pd
-from extended_portfolio.helpers import *
+from helpers import *
 
 def perform_validation(w, validation_returns, validation_prices, risk_free):
 
