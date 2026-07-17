@@ -9,7 +9,7 @@ def perform_validation(w, validation_returns, validation_prices, risk_free):
 
     mean_daily = np.mean(total_return)
     std_daily = np.std(total_return)
-    downside = total_return[total_return < 0]  # or < risk_free/255 if you want shortfall vs cash
+    downside = total_return[total_return < 0]
     downside_std = np.std(downside) if len(downside) > 0 else 0.0
 
     sharpe = (255 * mean_daily - risk_free) / (np.sqrt(255) * std_daily)
