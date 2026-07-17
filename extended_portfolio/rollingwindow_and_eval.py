@@ -5,19 +5,15 @@ from helpers import *
 
 def perform_validation(w, validation_returns, validation_prices, risk_free):
 
-    # validation data is shape (T, N)
+    total_return = validation_returns @ w[:-1] + w[-1] * risk_free / 255  # daily portfolio return
 
-    # Reshape w to (N+1, 1) for matrix multiplication
-    # perform metrics
-    total_return = validation_returns @ w[:-1] + w[-1] * risk_free / 255 # daily
-
-    std = np.std(total_return)
-    downside = total_return[total_return < 0]
+    mean_daily = np.mean(total_return)
+    std_daily = np.std(total_return)
+    downside = total_return[total_return < 0]  # or < risk_free/255 if you want shortfall vs cash
     downside_std = np.std(downside) if len(downside) > 0 else 0.0
 
-    cumulative_returns = np.cumprod(total_return + 1) - 1
-    sharpe = (255 * np.mean(total_return) - risk_free) / (np.sqrt(255) * std)
-    sortino = (255 * np.mean(total_return) - risk_free) / (np.sqrt(255) * downside_std + 1e-4)
+    sharpe = (255 * mean_daily - risk_free) / (np.sqrt(255) * std_daily)
+    sortino = (255 * mean_daily - risk_free) / (np.sqrt(255) * downside_std + 1e-4)
 
 
     alpha = 0.10
@@ -27,6 +23,7 @@ def perform_validation(w, validation_returns, validation_prices, risk_free):
     mean_return = np.mean(total_return)
 
     md = max_drawdown(validation_prices, w[:-1])
+    cumulative_returns = np.cumprod(total_return + 1) - 1
 
     # print('PRINTING STATS'); print()
     # print("Mean daily return:", np.mean(total_return))
@@ -37,7 +34,7 @@ def perform_validation(w, validation_returns, validation_prices, risk_free):
     # print("Annualized risk-free rate:", risk_free)
     # print("Excess return (annualized):", 255 * np.mean(total_return) - risk_free / 255)
     # print("Sharpe ratio:", (255 * np.mean(total_return) - risk_free / 255) / (np.sqrt(255) * std))
-    port_vola = std * np.sqrt(255) # annual
+    port_vola = std_daily * np.sqrt(255) # annual
 
     return var_alpha, cvar, sharpe, sortino, cumulative_returns, mean_return, md, port_vola, total_return
 
