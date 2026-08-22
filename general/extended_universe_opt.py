@@ -5,17 +5,17 @@ from extended_portfolio.objectives import weights
 from extended_portfolio.rollingwindow_and_eval import compute_statistics_rolling
 
 
-datadir = Path.cwd() / "data" / "OHCL" / "latest_data"
+datadir = Path.cwd() / "data" / "OHCL" / "latest_data_new"
 
-snp = pd.read_csv(datadir / "CSPX ETF Stock Price History.csv")
-china = pd.read_csv(datadir / "CNYA ETF Stock Price History.csv")
-em = pd.read_csv(datadir / "EIMI ETF Stock Price History.csv")
-gold = pd.read_csv(datadir / "XAD5 ETF Stock Price History.csv")
-india = pd.read_csv(datadir / "INR ETF Stock Price History.csv")
-mscieurope = pd.read_csv(datadir / "XMEU ETF Stock Price History.csv")
-smallcapeurope = pd.read_csv(datadir / "SXRJ ETF Stock Price History.csv")
-ussmallcap = pd.read_csv(datadir / "CUSS ETF Stock Price History.csv")
-silver = pd.read_csv(datadir / "SSLN ETF Stock Price History.csv")
+snp = pd.read_csv(datadir / "CSPX ETF Stock Price History.csv", index_col=0)
+china = pd.read_csv(datadir / "CNYA ETF Stock Price History.csv", index_col=0)
+em = pd.read_csv(datadir / "EIMI ETF Stock Price History.csv", index_col=0)
+gold = pd.read_csv(datadir / "XAD5 ETF Stock Price History.csv", index_col=0)
+india = pd.read_csv(datadir / "INR ETF Stock Price History.csv", index_col=0)
+mscieurope = pd.read_csv(datadir / "XMEU ETF Stock Price History.csv", index_col=0)
+smallcapeurope = pd.read_csv(datadir / "SXRJ ETF Stock Price History.csv", index_col=0)
+ussmallcap = pd.read_csv(datadir / "CUSS ETF Stock Price History.csv", index_col=0)
+silver = pd.read_csv(datadir / "SSLN ETF Stock Price History.csv", index_col=0)
 
 dfs = [snp, china, em, gold, india, mscieurope, smallcapeurope, ussmallcap, silver]
 

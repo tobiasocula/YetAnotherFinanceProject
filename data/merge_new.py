@@ -4,9 +4,15 @@ import numpy as np
 import yfinance as yf
 import sys
 
+
+
+"""
+NEWEST: latest_data
+"""
+
 base = Path.cwd() / "data"
-old_data = base / "OHCL" / "investing_dot_com_transformed"
-new_data = base / "OHCL" / "latest_data"
+old_data = base / "OHCL" / "latest_data"
+new_data = base / "OHCL" / "latest_data_new"
 new_data.mkdir(exist_ok=True)
 
 equities = [
