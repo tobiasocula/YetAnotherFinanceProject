@@ -5,6 +5,10 @@ from extended_portfolio.objectives import weights
 from extended_portfolio.rollingwindow_and_eval import compute_statistics_rolling
 import sys
 
+"""
+python3 -m general.normal_universe_opt
+"""
+
 datadir = Path.cwd() / "data" / "OHCL" / "latest_data"
 
 snp = pd.read_csv(datadir / "CSPX ETF Stock Price History.csv", index_col=0)
@@ -149,7 +153,28 @@ for w,s,l in zip(ws, stresses, strat_labels):
 
 
 """
-MOMENTUM WITH CVAR:
-[0.08762273 0.08762273 0.21139544 0.08762273 0.08762273 0.08762273
- 0.08762273 0.26286819]
+strategy ER :
+[0.09839524 0.09839524 0.09839524 0.09839524 0.11444283 0.09839524
+ 0.09839524 0.29518572]
+stress: 0.9404958399608861
+strategy ER_cvar :
+[0.09836244 0.09836244 0.09836244 0.09836244 0.11473801 0.09836244
+ 0.09836244 0.29508733]
+stress: 0.9380884572242277
+strategy sharpe :
+[0.17250746 0.08439242 0.08439242 0.20525521 0.08439242 0.10143489
+ 0.08439242 0.18323277]
+stress: 0.43423988971968086
+strategy sharpe_cvar :
+[0.17274723 0.08440632 0.08440632 0.20506064 0.08440632 0.10130488
+ 0.08440632 0.18326198]
+stress: 0.4342375948203957
+strategy momentum_based :
+[0.07647049 0.07647049 0.07647049 0.07647049 0.07647049 0.37442283
+ 0.07647049 0.16675424]
+stress: 0.43612704897452703
+strategy momentum_cvar :
+[0.07647049 0.07647049 0.07647049 0.07647049 0.07647049 0.37442283
+ 0.07647049 0.16675424]
+stress: 0.43612704897452703
 """

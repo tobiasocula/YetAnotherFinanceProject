@@ -11,8 +11,8 @@ NEWEST: latest_data
 """
 
 base = Path.cwd() / "data"
-old_data = base / "OHCL" / "latest_data"
-new_data = base / "OHCL" / "latest_data_new"
+old_data = base / "OHCL" / "latest_data_new"
+new_data = base / "OHCL" / "latest_data"
 new_data.mkdir(exist_ok=True)
 
 equities = [
