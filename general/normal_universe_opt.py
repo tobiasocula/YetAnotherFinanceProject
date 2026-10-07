@@ -9,7 +9,7 @@ import sys
 python3 -m general.normal_universe_opt
 """
 
-datadir = Path.cwd() / "data" / "OHCL" / "latest_data"
+datadir = Path.cwd() / "data" / "OHCL" / "latest_data_new"
 
 snp = pd.read_csv(datadir / "CSPX ETF Stock Price History.csv", index_col=0)
 china = pd.read_csv(datadir / "CNYA ETF Stock Price History.csv", index_col=0)
